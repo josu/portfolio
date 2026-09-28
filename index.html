@@ -118,6 +118,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sel);outline-offset
 .note h3{font-size:19px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em}
 .note p{margin:0;font-size:15px;color:var(--muted)}
 
+/* Domains */
+.domains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.domain{background:var(--frame);border:1px solid var(--line);border-radius:4px;padding:20px 22px;display:grid;grid-template-columns:36px minmax(0,1fr);gap:4px 14px;align-items:start}
+.domain svg{grid-row:span 2;width:36px;height:36px;color:var(--sel);background:var(--sel-soft);border-radius:8px;padding:7px}
+.domain h3{font-size:19px;font-weight:600;letter-spacing:-.01em;padding-top:5px}
+.domain p{margin:0;font-size:15px;color:var(--muted)}
+@media (max-width:780px){.domains{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.domains{grid-template-columns:1fr}}
+
 /* Contact */
 .contact{padding:clamp(28px,5vw,56px);display:grid;gap:20px}
 .contact h2{font-size:clamp(32px,5vw,58px);font-weight:800;letter-spacing:-.035em;max-width:13em}
@@ -217,6 +226,20 @@ footer{margin-top:40px;display:flex;justify-content:space-between;flex-wrap:wrap
             <div class="stats"><div><b>−40%</b>first-load weight</div><div><b>6</b>languages at launch</div></div>
           </div>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="domains" aria-label="Domain expertise">
+    <div class="frame-wrap">
+      <span class="flabel">Section · Domain expertise</span>
+      <div class="domains">
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg><h3>Fintech</h3><p>Payments, onboarding and money flows where trust and clarity matter most.</p></div>
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h2l2 10h10l2-7H7"/><circle cx="10" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg><h3>E-commerce</h3><p>Discovery, cart, checkout and delivery at very large scale.</p></div>
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M12 10v4M10 12h4"/></svg><h3>Healthcare</h3><p>Care journeys and records where errors are costly and accessibility is essential.</p></div>
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13l7-2 4-7 2 1-2 6 5 1 2-2 1 1-2 4-6 1-6 3-1-1 3-4-7 0z"/></svg><h3>Travel</h3><p>Search, booking and trip changes across many steps and providers.</p></div>
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 8v6l-3 6M12 14l3 6M8 11h8"/></svg><h3>Ergonomics</h3><p>Designing around the human body: posture, reach, fatigue and physical comfort.</p></div>
+        <div class="domain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M8 20h8M12 16v4M9 9l2 2 4-4"/></svg><h3>Automated Workplace</h3><p>Tools where people and automation share the work, and people stay in control.</p></div>
       </div>
     </div>
   </section>
