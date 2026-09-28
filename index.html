@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Joseph's Design Canvas</title>
+<meta name="description" content="Joseph, Senior UX Designer. Case studies in checkout, design systems and delivery experiences.">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --canvas:#E6E7EA; --dot:#C3C6CD; --frame:#FFFFFF; --ink:#1A1C21; --muted:#60646E; --line:#D5D8DE;
+  --sel:#3B5BDB; --sel-soft:rgba(59,91,219,.10); --cursor:#E8590C; --pin:#F5C542; --pin-ink:#3D2E00; --avatar-filter:none;
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --canvas:#1C1D21; --dot:#34363D; --frame:#26282E; --ink:#EDEEF0; --muted:#A2A6AF; --line:#3A3D45;
+    --sel:#7C94F5; --sel-soft:rgba(124,148,245,.14); --cursor:#FF8A4C; --pin:#E0B53A; --pin-ink:#2A1F00; --avatar-filter:invert(1) brightness(.93);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --canvas:#1C1D21; --dot:#34363D; --frame:#26282E; --ink:#EDEEF0; --muted:#A2A6AF; --line:#3A3D45;
+  --sel:#7C94F5; --sel-soft:rgba(124,148,245,.14); --cursor:#FF8A4C; --pin:#E0B53A; --pin-ink:#2A1F00; --avatar-filter:invert(1) brightness(.93);
+}
+*{box-sizing:border-box}
+body{background-color:var(--canvas);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);background-size:22px 22px;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding-inline:clamp(16px,4vw,48px);padding-block:0 72px}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.05}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sel);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:12px}
+
+/* Toolbar nav */
+.bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:10;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--frame);border:1px solid var(--line);border-radius:10px;padding:8px 10px 8px 16px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.bar .file{display:flex;gap:10px;align-items:center;font-family:var(--display);font-weight:600;font-size:15px}
+.bar .file .mono{color:var(--muted);font-weight:400}
+.bar ul{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.bar ul a{display:block;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:14px;color:var(--muted)}
+.bar ul a:hover{background:var(--sel-soft);color:var(--ink)}
+
+.draft{margin-top:14px;display:inline-flex;gap:10px;align-items:center;background:var(--pin);color:var(--pin-ink);padding:6px 12px;border-radius:14px 14px 14px 2px;font-size:13.5px}
+
+/* Frames */
+.frame-wrap{position:relative;margin-top:44px}
+.flabel{position:absolute;top:-22px;left:0;font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.frame{background:var(--frame);border:1px solid var(--line);border-radius:4px}
+
+/* Hero */
+.hero{padding:clamp(28px,6vw,72px);position:relative;overflow:hidden}
+.hero .role{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:24px}
+.hero h1{font-size:clamp(40px,7.6vw,96px);font-weight:800;letter-spacing:-.04em;line-height:.96;max-width:11.5em}
+.selected{position:relative;display:inline;outline:1.5px solid var(--sel);outline-offset:4px;background:var(--sel-soft)}
+.handles{position:relative}
+.cursor{position:absolute;display:flex;align-items:flex-start;gap:2px;pointer-events:none;transition:transform 1.4s cubic-bezier(.5,0,.2,1)}
+.cursor svg{width:18px;height:18px;flex:none}
+.cursor span{background:var(--cursor);color:#fff;font-size:12px;font-weight:500;padding:2px 8px;border-radius:4px;margin-top:14px;white-space:nowrap}
+.hero .lede{margin:32px 0 0;max-width:36em;font-size:clamp(17px,1.9vw,20px);color:var(--muted)}
+.hero .lede b{color:var(--ink);font-weight:500}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,56px);align-items:center}
+.avatar{position:relative;margin:0;width:clamp(204px,26.4vw,300px);outline:1.5px solid var(--sel);outline-offset:10px}
+.avatar img{display:block;width:100%;height:auto;filter:var(--avatar-filter)}
+.alabel{position:absolute;top:-34px;left:-10px;background:var(--sel);color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;white-space:nowrap}
+.avatar .h{position:absolute;width:8px;height:8px;background:var(--frame);border:1.5px solid var(--sel)}
+.avatar .tl{top:-14px;left:-14px}.avatar .tr{top:-14px;right:-14px}.avatar .bl{bottom:-14px;left:-14px}.avatar .br{bottom:-14px;right:-14px}
+@media (max-width:780px){
+  .hero-grid{grid-template-columns:1fr}
+  .avatar{order:-1;width:180px;margin:24px 0 8px 12px}
+}
+
+/* Case board */
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px 32px;margin-top:8px}
+.board .frame-wrap:first-child{grid-column:1 / -1}
+.case{display:flex;flex-direction:column;text-decoration:none;height:100%;transition:box-shadow .2s,border-color .2s}
+.case:hover{border-color:var(--sel);box-shadow:0 0 0 1px var(--sel)}
+.thumb{position:relative;aspect-ratio:16/8;max-width:100%;background:var(--canvas);border-bottom:1px solid var(--line);overflow:hidden}
+.board .frame-wrap:first-child .thumb{aspect-ratio:16/6}
+.thumb canvas{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;right:16px;top:16px;background:var(--pin);color:var(--pin-ink);border-radius:14px 14px 14px 2px;padding:8px 12px;font-size:13px;line-height:1.35;max-width:210px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.pin b{display:block;font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:12px;flex:1}
+.body h3{font-size:clamp(22px,2.4vw,28px);font-weight:600;letter-spacing:-.02em}
+.body p{margin:0;color:var(--muted);font-size:16px;max-width:40em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-family:var(--mono);font-size:11.5px;padding:3px 8px;border-radius:4px;background:var(--sel-soft);color:var(--sel)}
+.stats{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line)}
+.stats div{font-size:13.5px;color:var(--muted)}
+.stats b{font-family:var(--display);font-size:18px;color:var(--ink);margin-right:6px;font-variant-numeric:tabular-nums}
+
+/* Two-panel section: layers + properties */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px 32px}
+.panel{padding:8px 0}
+.panel h2{font-size:14px;font-family:var(--body);font-weight:500;padding:10px 20px;border-bottom:1px solid var(--line);color:var(--muted)}
+.layers{list-style:none;margin:0;padding:6px 0}
+.layers li{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;align-items:start;padding:12px 20px}
+.layers li + li{border-top:1px dashed var(--line)}
+.layers .ic{width:12px;height:12px;border:1.5px solid var(--muted);border-radius:2px;margin-top:6px}
+.layers li:first-child .ic{border-color:var(--sel);background:var(--sel-soft)}
+.layers h3{font-family:var(--body);font-size:16px;font-weight:500}
+.layers p{margin:2px 0 0;font-size:14.5px;color:var(--muted)}
+.layers .when{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:3px;white-space:nowrap}
+.props{padding:6px 20px 16px}
+.prop{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.prop:last-child{border-bottom:0}
+.prop dt{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+.prop dd{margin:0}
+
+/* Principles as sticky notes */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.note{background:var(--frame);border:1px solid var(--line);border-top:4px solid var(--sel);border-radius:4px;padding:18px 20px}
+.note h3{font-size:19px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em}
+.note p{margin:0;font-size:15px;color:var(--muted)}
+
+/* Contact */
+.contact{padding:clamp(28px,5vw,56px);display:grid;gap:20px}
+.contact h2{font-size:clamp(32px,5vw,58px);font-weight:800;letter-spacing:-.035em;max-width:13em}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.email{font-family:var(--mono);font-size:15px;padding:11px 14px;border:1px solid var(--line);border-radius:6px;user-select:all;background:var(--canvas)}
+.btn{font-family:var(--body);font-weight:500;font-size:15px;padding:11px 16px;border-radius:6px;border:1px solid var(--sel);background:var(--sel);color:#fff;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink)}
+footer{margin-top:40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted)}
+
+@media (max-width:780px){
+  .board,.split{grid-template-columns:1fr}
+  .board .frame-wrap:first-child .thumb{aspect-ratio:16/8}
+  .bar ul li:nth-child(n+3){display:none}
+  .pin{max-width:160px;font-size:12px}
+  .prop{grid-template-columns:90px minmax(0,1fr)}
+}
+@media (prefers-reduced-motion: reduce){.cursor{transition:none}*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <nav class="bar" aria-label="Primary">
+    <div class="file"><span>Joseph</span><span class="mono">/ portfolio-2026</span></div>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="draft" role="note"><span class="mono">DRAFT</span><span>Projects and numbers are example content. Replace before sharing.</span></div>
+
+  <div class="frame-wrap" id="top">
+    <span class="flabel">Frame · Intro — 1120 × auto</span>
+    <header class="frame hero">
+      <div class="hero-grid">
+      <div class="hero-main">
+      <div class="role">Senior UX Designer · Amazon · Bengaluru</div>
+      <div class="handles" id="heroText">
+        <h1>I make <span class="selected" id="sel">complicated flows</span> feel like one obvious next step.</h1>
+        <div class="cursor" id="cursor" aria-hidden="true">
+          <svg viewBox="0 0 18 18"><path d="M2 1.5 L15 8 L9 9.5 L6.5 15.5 Z" fill="var(--cursor)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          <span>Joseph</span>
+        </div>
+      </div>
+      <p class="lede">Eight years designing for scale, most recently across <b>checkout, seller tools and delivery</b> at Amazon. I work from research to shipped pixels, and I stay for the metrics that follow.</p>
+      </div>
+      <figure class="avatar">
+        <span class="alabel mono">joseph.png · 380 × 560</span>
+        <img src="assets/joseph.png" alt="Illustrated portrait of Joseph" width="380" height="560">
+        <span class="h tl"></span><span class="h tr"></span><span class="h bl"></span><span class="h br"></span>
+      </figure>
+      </div>
+    </header>
+  </div>
+
+  <section id="work" aria-label="Selected work">
+    <div class="board">
+      <div class="frame-wrap">
+        <span class="flabel">Frame · Case 01 — Checkout</span>
+        <a class="frame case" href="#contact">
+          <div class="thumb"><canvas data-kind="flow"></canvas>
+            <div class="pin"><b>−18%</b>abandonment on multi-seller carts</div></div>
+          <div class="body">
+            <div class="chips"><span>Lead designer</span><span>2024–25</span><span>Web + App</span></div>
+            <h3>Splitting a multi-seller cart without splitting the customer's attention</h3>
+            <p>Research with 24 customers showed one question mattered: when will I have everything? I reframed checkout around it and shipped a grouped delivery view.</p>
+            <div class="stats"><div><b>−31%</b>"where's my item" contacts</div><div><b>3</b>teams on one pattern</div></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="frame-wrap">
+        <span class="flabel">Frame · Case 02 — Design system</span>
+        <a class="frame case" href="#contact">
+          <div class="thumb"><canvas data-kind="grid"></canvas>
+            <div class="pin"><b>70%</b>of seller screens migrated in 2 quarters</div></div>
+          <div class="body">
+            <div class="chips"><span>System owner</span><span>2023–24</span><span>40+ teams</span></div>
+            <h3>One component library for seller tools</h3>
+            <p>Audited 300+ screens, co-wrote the token spec with engineering, and set contribution rules so teams extend the system without forking it.</p>
+            <div class="stats"><div><b>2.4×</b>faster handoff</div><div><b>AA</b>contrast across library</div></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="frame-wrap">
+        <span class="flabel">Frame · Case 03 — Tracking</span>
+        <a class="frame case" href="#contact">
+          <div class="thumb"><canvas data-kind="map"></canvas>
+            <div class="pin"><b>+12 pts</b>task success in usability tests</div></div>
+          <div class="body">
+            <div class="chips"><span>Senior designer</span><span>2022–23</span><span>India launch</span></div>
+            <h3>Delivery tracking for patchy networks and small screens</h3>
+            <p>Field studies in three cities led to a text-first tracking page that caches the last known state and reads cleanly with TalkBack.</p>
+            <div class="stats"><div><b>−40%</b>first-load weight</div><div><b>6</b>languages at launch</div></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach" aria-label="How I work">
+    <div class="frame-wrap">
+      <span class="flabel">Section · How I work</span>
+      <div class="notes">
+        <div class="note"><h3>Start with real behaviour</h3><p>Interviews plus funnel data, so we fix the problem people actually hit.</p></div>
+        <div class="note"><h3>System, then screen</h3><p>Every flow leaves a reusable pattern with its tokens and rules written down.</p></div>
+        <div class="note"><h3>Accessibility gates launch</h3><p>Screen readers, contrast and low bandwidth are part of done.</p></div>
+        <div class="note"><h3>Measure what changed</h3><p>Metrics agreed before design, reported after launch, misses included.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="split">
+    <div class="frame-wrap" id="experience">
+      <span class="flabel">Layers · Experience</span>
+      <div class="frame panel">
+        <h2>Experience</h2>
+        <ul class="layers">
+          <li><span class="ic"></span><div><h3>Senior UX Designer · Amazon</h3><p>Checkout, seller tools, delivery. Mentor four designers; run team critique.</p></div><span class="when">2021–now</span></li>
+          <li><span class="ic"></span><div><h3>UX Designer · Previous company</h3><p>Core mobile app from zero to one million users. Started the research practice.</p></div><span class="when">2018–21</span></li>
+          <li><span class="ic"></span><div><h3>Interaction Designer · Earlier company</h3><p>Web and mobile work for fintech and e-commerce clients.</p></div><span class="when">2016–18</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="frame-wrap" id="about">
+      <span class="flabel">Properties · About</span>
+      <div class="frame panel">
+        <h2>About Joseph</h2>
+        <dl class="props">
+          <div class="prop"><dt>Based in</dt><dd>Bengaluru, open to relocation</dd></div>
+          <div class="prop"><dt>Focus</dt><dd>High-traffic consumer and seller flows</dd></div>
+          <div class="prop"><dt>Practice</dt><dd>Interaction design, mixed-methods research, design systems, prototyping in code</dd></div>
+          <div class="prop"><dt>Tools</dt><dd>Figma, ProtoPie, HTML/CSS, Python, Amplitude</dd></div>
+          <div class="prop"><dt>Off hours</dt><dd>Cultural storytelling, including a Malayalam comic with hand-set type</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap" id="contact">
+    <span class="flabel">Frame · Contact</span>
+    <section class="frame contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Have a hard problem? Let's put it on the canvas.</h2>
+      <div class="row">
+        <span class="email" id="email">joseph@yourdomain.com</span>
+        <button class="btn" id="copy" type="button">Copy email</button>
+        <a class="btn ghost" href="https://www.linkedin.com/" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="mono" style="margin:0;color:var(--muted)">Full case studies and résumé on request · NDA-safe versions available</p>
+    </section>
+  </div>
+
+  <footer class="mono"><span>© 2026 Joseph</span><span>Zoom 100%</span></footer>
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy'),em=document.getElementById('email');
+  btn.addEventListener('click',function(){
+    function sel(){var r=document.createRange();r.selectNodeContents(em);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Press Ctrl+C';}
+    try{navigator.clipboard.writeText(em.textContent.trim()).then(function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy email'},1600)},sel)}catch(e){sel()}
+  });
+
+  // Park the multiplayer cursor at the end of the selected phrase, then drift gently
+  var cur=document.getElementById('cursor'),selEl=document.getElementById('sel'),host=document.getElementById('heroText');
+  function place(dx,dy){
+    var rects=selEl.getClientRects(); if(!rects.length)return;
+    var r=rects[rects.length-1],h=host.getBoundingClientRect();
+    var x=Math.min(r.right-h.left-6+(dx||0),h.width-90), y=r.bottom-h.top-10+(dy||0);
+    cur.style.transform='translate('+x+'px,'+y+'px)';
+  }
+  place();
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,t=0;
+  if(!reduce)setInterval(function(){t++;place(t%2?-40:0,t%2?8:0)},2600);
+
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+  function draw(){
+    place();
+    document.querySelectorAll('canvas[data-kind]').forEach(function(c){
+      var r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;
+      var x=c.getContext('2d');x.scale(d,d);var W=r.width,H=r.height;
+      var fr=css('--frame'),ln=css('--line'),ink=css('--ink'),sel=css('--sel'),soft=css('--sel-soft');
+      function box(a,b,w,h,f,s){x.fillStyle=f||fr;x.strokeStyle=s||ln;x.lineWidth=1;x.beginPath();x.rect(a,b,w,h);x.fill();x.stroke()}
+      function bar(a,b,w,col,h){x.fillStyle=col||ln;x.fillRect(a,b,w,h||6)}
+      var k=c.dataset.kind;
+      if(k==='flow'){
+        var n=W>600?4:3,pw=Math.min(110,(W*.62)/n),ph=pw*1.9>H*.8?H*.8:pw*1.9,gap=(W*.62-pw*n)/(n-1||1),top=(H-ph)/2,ox=W*.06;
+        for(var i=0;i<n;i++){var px=ox+i*(pw+gap);var on=i===n-1;
+          box(px,top,pw,ph,fr,on?sel:ln);bar(px+8,top+10,pw*.55,ink,5);
+          for(var j=0;j<3;j++)bar(px+8,top+26+j*16,pw-16);
+          bar(px+8,top+ph-20,pw-16,on?sel:ln,11);
+          if(i<n-1){x.strokeStyle=sel;x.setLineDash([3,3]);x.beginPath();x.moveTo(px+pw+3,top+ph/2);x.lineTo(px+pw+gap-3,top+ph/2);x.stroke();x.setLineDash([])}}
+      }else if(k==='grid'){
+        var cols=4,g=8,cw=(W*.62-g*(cols-1))/cols,ch=(H*.7-g*2)/3,ox2=W*.06,oy=H*.15;
+        for(var a=0;a<3;a++)for(var b=0;b<cols;b++){var hi=a===1&&b===1,bx=ox2+b*(cw+g),by=oy+a*(ch+g);
+          box(bx,by,cw,ch,hi?soft:fr,hi?sel:ln);bar(bx+6,by+8,cw*.5,hi?sel:ink,4);bar(bx+6,by+18,cw*.7,ln,4)}
+      }else{
+        var ow=W*.62;x.strokeStyle=ln;
+        for(var gx=0;gx<ow;gx+=24){x.beginPath();x.moveTo(W*.04+gx,H*.1);x.lineTo(W*.04+gx,H*.9);x.stroke()}
+        for(var gy=H*.1;gy<H*.9;gy+=24){x.beginPath();x.moveTo(W*.04,gy);x.lineTo(W*.04+ow,gy);x.stroke()}
+        x.strokeStyle=sel;x.lineWidth=3;x.beginPath();x.moveTo(W*.08,H*.75);x.bezierCurveTo(W*.25,H*.2,W*.4,H*.85,W*.6,H*.3);x.stroke();
+        x.fillStyle=sel;x.beginPath();x.arc(W*.6,H*.3,6,0,7);x.fill();x.fillStyle=ink;x.beginPath();x.arc(W*.08,H*.75,4,0,7);x.fill();
+      }
+    });
+  }
+  draw();addEventListener('resize',draw);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(document.fonts)document.fonts.ready.then(draw);
+})();
+</script>
+
+</body>
+</html>
